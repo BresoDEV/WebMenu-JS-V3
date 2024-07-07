@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<style>
+    html,body {
+        background-color: #223a57;
+    }
+
+    button {
+
+        background-color: rgb(50, 82, 201);
+        border-radius: 15px;
+        padding: 5px;
+        border: none;
+        color: aliceblue;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    .code {
+        background-color: rgb(0, 0, 0);
+        color: aliceblue;
+        width: 300px;
+        border: 0;
+        border-radius: 15px;
+        padding: 15px;
+    }
+    h2{
+        color: aliceblue;
+    }
+
+    .amarelo {
+        color: rgb(229, 237, 12);
+    }
+
+    .laranja {
+        color: rgb(237, 151, 12);
+    }
+
+    .azul {
+        color: rgb(12, 177, 237);
+    }
+
+    .cyan {
+        color: rgb(12, 233, 237);
+    }
+
+    .verde {
+        color: rgb(43, 162, 88);
+    }
+</style>
+
+<body>
+    
+    <br>
+
+
+    <h2>Demos:</h2> 
+    <button id="abrir">Abrir Menu</button>
+    <br>
+    <br>
+    <button id="Redefinir">Redefinir Layout</button>
+    <br>
+    <br>
+    <button id="design1">Aplicar Layout 1</button>
+    <br>
+    <hr>
+    <br>
+    <h2>Implementação:</h2>
+    <div class="code">
+       <font class="azul"> &lt;script <font class="cyan">src</font>=<font class="laranja">"menu.js"</font>&gt;&lt;/script&gt;</font>
+    </div>
+  
+
+
+    <h2>Estrutura Inicial:</h2>
+    <div class="code">
+        <font class="verde">//Estrutura inicial</font><br>
+        <font class="amarelo">Menu(</font>
+        <font class="laranja">'Menu Base'</font>,<font class="azul">() => {</font><br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;<font class="amarelo">addOption(() </font>
+        <font class="azul"> => {</font><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="amarelo">Titulo(</font>
+        <font class="laranja">'Click me'</font>,<font class="azul">() => {</font><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="amarelo">alert(<font
+                class="laranja">'Hello world!'</font>);</font><br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class="amarelo">});</font><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<font class="amarelo">});</font><br>
+        <font class="amarelo">});</font>
+    </div>
+    <button id="ex1">Executar codigo</button>
+    <button onclick="unload()">Parar</button>
+    <br>
+    <hr>
+    <br>
+
+</body>
+<script src="menu.js"></script>
+
+<script>
+
+
+
+    document.getElementById('ex1').addEventListener('click', () => {
+        Menu('Menu Base', () => {
+            addOption(() => {
+                Titulo('Click me', () => {
+                    alert('Hello world!');
+                });
+            });
+        });
+    })
+
+    document.getElementById('abrir').addEventListener('click', () => {
+        MenuPrincipal()
+    })
+
+    document.getElementById('Redefinir').addEventListener('click', () => {
+        resetLayout()
+    })
+
+
+
+    document.getElementById('design1').addEventListener('click', () => {
+
+        corFundoMenu = '#000000'
+        larguraMenu = 350
+        alturaMenu = 392
+        opacidadeMenu = 1
+        borderRadiusMenu = 0
+        corFundoTopoEsq = '#0400ff'
+        corFundoTopoDir = '#00ffe1'
+        alturaTopo = 0
+        espacamento = 0
+        tamFonteTopo = 20
+        fontFamilyTopo = 'impact'
+        corFonteTopo = '#ffffff'
+        tamFonteOpcoes = 10
+        fontFamilyOpcoes = 'Arial'
+        corFonteOpcoes = '#ffffff'
+        corFundoOpcoesOver = '#2d48d2'
+        corFundoOpcoesTextoOver = '#ffffff'
+        marginLeftTexto = 3
+        marginRightTexto = 6
+        larguraMenuLateral = 229
+        corFundoMenuMenuLateral = '#000000'
+        opacidadeMenuLateral = 0.7
+        corFonteOpcoesLateral = '#ffffff'
+        borderRadiusMenuLateral = 10
+        paddingMenuLateral = 5
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function MenuPrincipal() {
+        Menu('Menu Base', () => {
+
+            addOption(() => {
+                SubMenu('Base Layout', () => {
+                    MenuConfig()
+                })
+            })
+
+            addOption(() => {
+                SubMenu('Examples', () => {
+                    Exemplos()
+                })
+            })
+
+
+            addOption(() => {
+                SubMenu('Tools', () => {
+                    Tools()
+                })
+            })
+            addOption(() => {
+                SubMenu('Draw Imgs Examples', () => {
+                    DrawImgsExamples()
+                })
+            })
+
+            addOption(() => {
+                Titulo('Reset Layout', () => {
+                    resetLayout()
+                })
+            })
+            addOption(() => {
+                Titulo('Log Vars', () => {
+                    logVars()
+                })
+            })
+            addBreak()
+            addOption(() => {
+                Titulo('Unload', () => {
+                    unload()
+                })
+            })
+
+           
+        })
+    }
+
+
+    function DrawImgsExamples() {
+        Menu('Draw Imgs', () => {
+            addOption(() => {
+                SubMenuBack('Voltar', () => {
+                    img.remove()
+                    MenuPrincipal()
+                })
+            })
+
+            addBreak('Simple Draws')
+
+            addOption(() => {
+                Titulo('Display Fixed Image', () => {
+                    displayImage()
+                })
+            })
+            addOption(() => {
+                Titulo('Display Moveable Image', () => {
+                    displayImage('2.jpg', 300, 300, 200, 200, true)
+                })
+            })
+
+            addBreak('Click to Change')
+
+            var img = displayImage('1.jpg', 10, 300, 200, 200, true)
+            addOption(() => {
+                Titulo('Change to 1', () => {
+                    img.src = '1.jpg'
+                })
+            })
+            addOption(() => {
+                Titulo('Change to 2', () => {
+                    img.src = '2.jpg'
+                })
+            })
+            addOption(() => {
+                Titulo('Change to 3', () => {
+                    img.src = '3.jpg'
+                })
+            })
+
+            addBreak('Hover Option to Change')
+
+            addOption(() => {
+                Titulo('Change to 1')
+            })
+            addOption(() => {
+                Titulo('Change to 2')
+            })
+            addOption(() => {
+                Titulo('Change to 3')
+            })
+
+            setInterval(() => {
+                if (opcaoAtual == 10) {
+                    img.src = '3.jpg'
+                }
+                if (opcaoAtual == 11) {
+                    img.src = '2.jpg'
+                }
+                if (opcaoAtual == 12) {
+                    img.src = '3.jpg'
+                }
+            }, 1);
+
+        })
+    }
+
+
+
+
+    function Tools() {
+        Menu('Tools', () => {
+            addOption(() => {
+                SubMenuBack('Voltar', () => {
+                    MenuPrincipal()
+                })
+            })
+
+            addBreak()
+
+            addOption(() => {
+                Titulo('Notes', () => {
+                    createNotepad()
+                })
+            })
+
+            addOption(() => {
+                Titulo('Display Msg', () => {
+                    displayMsg('<font style="color:lime">Msg example</font><br><font style="color:yellow">with html too..</font>')
+                })
+            })
+
+            addOption(() => {
+                Titulo('Show Side Menu', () => {
+
+                    var ar1 = [
+                        'a', 'b', 'c'
+                    ]
+                    var ar2 = [
+                        '1', '2', '3'
+                    ]
+                    sideMenu(ar1, ar2)
+
+                })
+            })
+
+            addBreak('Side Menu Options')
+
+            addOption(() => {
+                Titulo('Change Side Menu Values', () => {
+
+                    changeSideMenuValue(1, 2, Math.floor(Math.random() * 1000))
+                    changeSideMenuValue(2, 2, Math.floor(Math.random() * 1000))
+                    changeSideMenuValue(3, 2, Math.floor(Math.random() * 1000))
+
+                })
+            })
+
+            addOption(() => {
+                Titulo('Largura')
+                InputRangeInt(larguraMenuLateral, 50, 300, (resultado) => {
+                    larguraMenuLateral = resultado
+                })
+            })
+            addOption(() => {
+                Titulo('Borda')
+                InputRangeInt(borderRadiusMenuLateral, 0, 20, (resultado) => {
+                    borderRadiusMenuLateral = resultado
+                })
+            })
+
+            addOption(() => {
+                Titulo('Padding')
+                InputRangeInt(paddingMenuLateral, 0, 20, (resultado) => {
+                    paddingMenuLateral = resultado
+                })
+            })
+            addOption(() => {
+                Titulo('Opacidade')
+                InputRangeInt(7, 0, 10, (resultado) => {
+                    opacidadeMenuLateral = resultado * 0.1
+                })
+            })
+
+            addOption(() => {
+                Titulo('Cor da Fonte')
+                Color(corFonteOpcoesLateral, (resultado) => {
+                    corFonteOpcoesLateral = resultado
+                })
+            })
+
+            addOption(() => {
+                Titulo('Cor de Fundo')
+                Color(corFundoMenuMenuLateral, (resultado) => {
+                    corFundoMenuMenuLateral = resultado
+                })
+            })
+
+
+
+
+        })
+    }
+
+
+    function Exemplos() {
+        Menu('Exemplos', () => {
+            addOption(() => {
+                SubMenuBack('Voltar', () => {
+                    MenuPrincipal()
+                })
+            })
+
+            addBreak('addBreak Example')
+
+            addOption(() => {
+                SubMenu('SubMenu', () => {
+                    //call new menu
+                })
+            })
+            addOption(() => {
+                SubMenuBack('SubMenuBack', () => {
+                    //call new menu
+                })
+            })
+            addOption(() => {
+                BlockedOption('Blocked Option', () => {
+                    //on click functiion
+                })
+            })
+            addOption(() => {
+                Button('Button', () => {
+                    //on click functiion
+                })
+            })
+
+            var myFloatVar = 1.23345;
+            addOption(() => {
+                Titulo('Float')
+                Float(myFloatVar, 0.0000, 2.0000, 0.0100, (x) => {
+                    myFloatVar = x;
+                })
+            })
+
+            var myIntVar = 10;
+            addOption(() => {
+                Titulo('Int')
+                Int(myIntVar, 0, 20, 1, (x) => {
+                    myIntVar = x;
+                })
+            })
+
+            var myIntVar = 10;
+            addOption(() => {
+                Titulo('Number')
+                Number(myIntVar, 0, 20, (x) => {
+                    myIntVar = x;
+                })
+            })
+
+            var arrayCombo = ['Opt1', 'Opt2', 'Opt3'];
+            addOption(() => {
+                Titulo('Number')
+                Combo(arrayCombo, (x) => {
+                    alert(x)
+                })
+            })
+
+
+            addOption(() => {
+
+                var result = ''
+                Titulo('Combo and Button')
+                Combo(arrayCombo, (x) => {
+                    result = x
+                })
+                Button('Show', () => {
+                    alert(result)
+                })
+            })
+
+
+            addOption(() => {
+                Titulo('Color1')
+                Color(corFundoTopoEsq, (x) => {
+                    corFundoTopoEsq = x
+                })
+            })
+
+            addOption(() => {
+                Titulo('Color2')
+                Color(corFundoTopoEsq, (x) => {
+                    corFundoTopoEsq = x
+                })
+                Color(corFundoTopoDir, (x) => {
+                    corFundoTopoDir = x
+                })
+            })
+            addOption(() => {
+                Titulo('Color3')
+                Color(corFundoTopoEsq, (x) => {
+                    corFundoTopoEsq = x
+                })
+                Color(corFundoTopoDir, (x) => {
+                    corFundoTopoDir = x
+                })
+                Color(corFundoTopoDir, (x) => {
+                    corFundoTopoDir = x
+                })
+            })
+
+
+            var boolVar = false;
+            addOption(() => {
+                Titulo('CheckBox')
+                CheckBox(boolVar, (x) => {
+                    boolVar = x;
+                })
+            })
+
+
+            addOption(() => {
+                Titulo('InputText1')
+                var result = 'Sample placeholder'
+                InputText(result, (x) => {
+                    result = x;
+
+                })
+            })
+
+            addOption(() => {
+                Titulo('InputText2')
+                var result = 'Sample placeholder'
+                InputText(result, (x) => {
+                    result = x;
+                })
+
+                Button('Show', () => {
+                    alert(result)
+                })
+            })
+
+            addOption(() => {
+                Titulo('InputRangeInt')
+                InputRangeInt(myIntVar, 0, 100, (x) => {
+                    myIntVar = x;
+                })
+
+            })
+            addOption(() => {
+                Titulo('InputRange')
+                InputRange(myIntVar, 0, 100, (x) => {
+                    myIntVar = x;
+                })
+
+            })
+            addOption(() => {
+                Titulo('Texto')
+                Texto('hello', () => {
+                    alert('hello')
+                })
+
+            })
+            addOption(() => {
+                Titulo('BoolOnOff')
+                BoolOnOff(boolVar, (x) => {
+                    boolVar = x
+                })
+
+            })
+            addOption(() => {
+                Titulo('BoolCheck')
+                BoolCheck(boolVar, (x) => {
+                    boolVar = x
+                })
+
+            })
+            addOption(() => {
+                Titulo('Bool')
+                Bool(boolVar, (x) => {
+                    boolVar = x
+                })
+
+            })
+
+        })
+    }
+
+
+
+
+    function MenuConfig() {
+        Menu('Config', () => {
+            addOption(() => {
+                SubMenuBack('Voltar', () => {
+                    MenuPrincipal()
+                })
+            })
+
+            addBreak('Menu')
+
+            addOption(() => {
+                Titulo('Largura:')
+                Int(larguraMenu, 0, 1000, 1, (x) => {
+                    larguraMenu = x
+                })
+            })
+
+            addOption(() => {
+                Titulo('Altura Max:')
+
+                InputRangeInt(alturaMenu, 100, 700, (x) => {
+                    alturaMenu = x
+                })
+            })
+
+            addOption(() => {
+                Titulo('Opacidade:')
+                InputRangeInt((opacidadeMenu * 100), 3, 100, (x) => {
+                    opacidadeMenu = x * 0.01
+                })
+            })
+
+            addOption(() => {
+                Titulo('Bordas:')
+                InputRangeInt(borderRadiusMenu, 0, 30, (x) => {
+                    borderRadiusMenu = x
+                })
+            })
+
+            addOption(() => {
+                Titulo('Cor de Fundo:')
+                Color(corFundoMenu, (x) => {
+                    corFundoMenu = x
+                })
+            })
+
+            addBreak('Topo')
+
+            addOption(() => {
+                Titulo('Cor de Fundo:')
+                Color(corFundoTopoEsq, (x) => {
+                    corFundoTopoEsq = x
+                })
+                Color(corFundoTopoDir, (x) => {
+                    corFundoTopoDir = x
+                })
+            })
+            addOption(() => {
+                Titulo('Altura:')
+                InputRangeInt(alturaTopo, 0, 300, (x) => {
+                    alturaTopo = x
+                })
+            })
+
+            addOption(() => {
+                Titulo('Tam. da Fonte:')
+                InputRangeInt(tamFonteTopo, 20, 60, (x) => {
+                    tamFonteTopo = x
+                })
+            })
+            addOption(() => {
+                Titulo('Cor da Fonte:')
+                Color(corFonteTopo, (x) => {
+                    corFonteTopo = x
+                })
+            })
+
+            addBreak('Opcoes')
+
+            addOption(() => {
+                Titulo('Tam. da Fonte:')
+                InputRangeInt(tamFonteOpcoes, 10, 20, (x) => {
+                    tamFonteOpcoes = x
+                })
+            })
+            addOption(() => {
+                Titulo('Espacamento:')
+                InputRangeInt(espacamento, 0, 10, (x) => {
+                    espacamento = x
+                })
+            })
+
+            addOption(() => {
+                Titulo('Cor da Fonte:')
+                Color(corFonteOpcoes, (x) => {
+                    corFonteOpcoes = x
+                })
+            })
+
+            addOption(() => {
+                Titulo('Cor da Fonte ao selecionar:')
+                Color(corFundoOpcoesTextoOver, (x) => {
+                    corFundoOpcoesTextoOver = x
+                })
+            })
+            addOption(() => {
+                Titulo('Cor da Selecao:')
+                Color(corFundoOpcoesOver, (x) => {
+                    corFundoOpcoesOver = x
+                })
+            })
+
+
+            addOption(() => {
+                Titulo('Espaço a Esquerda:')
+                InputRangeInt(marginLeftTexto, 0, 10, (x) => {
+                    marginLeftTexto = x
+                })
+            })
+            addOption(() => {
+                Titulo('Espaço a Direita:')
+                InputRangeInt(marginRightTexto, 0, 10, (x) => {
+                    marginRightTexto = x
+                })
+            })
+
+        })
+
+    }
+
+</script>
+
+
+
+
+
+</html>
