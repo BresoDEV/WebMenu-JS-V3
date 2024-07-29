@@ -7,7 +7,7 @@ const BODY = document.body
 var posX = 300
 var posY = 10
 var corFundoMenu = '#000000'
-var larguraMenu = 350
+var larguraMenu = 250
 var alturaMenu = 400
 var opacidadeMenu = 0.9
 var borderRadiusMenu = 10
@@ -45,6 +45,13 @@ var intervalos = []
 
 //----------------
 
+const bloquearDivsAzul = document.createElement('style')
+bloquearDivsAzul.innerHTML = `
+*{
+    -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+}`
+document.head.appendChild(bloquearDivsAzul)
 
 //------------
 function BlockedOption(texto, func = () => { }) {
