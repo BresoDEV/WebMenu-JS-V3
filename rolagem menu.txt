@@ -1,0 +1,613 @@
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+  </style>
+  
+  <body>
+  </body>
+  
+  <script>
+
+    var numHooks = 0 //numero de loops rodando
+    // Configurações principais
+    const maxVisibleOptions = 5; // Número máximo de opções visíveis (pode ser alterado futuramente)
+    const options = [] // Lista de opções
+  
+    // Variáveis globais
+    let currentIndex = 0; // Índice da opção selecionada
+  
+  
+    var corBannerTitulo = '#ff00ff'
+    const corFonteTitulo = 'black'
+    var tamFonteTitulo = 27
+    const fontFamilyFonteTitulo = 'Arial'
+    const fontFamilyFonteContador = 'Arial'
+    const fontFamilyFonteOpcoes = 'Arial'
+  
+    const corFundoMenu = 'black'
+    const corFundoSelectedOption = 'gray'
+    const corFonteSelectedOption = 'black'
+    const corFonteOption = 'white'
+  
+    const corFundoContador = 'black'
+    const corFonteContador = 'white'
+  
+    var larguraMenu = 300
+    var marginLeft = 10
+    var tituloMargin = 10
+    var menuTop = 10
+  
+  
+    var tamFonteOpcoes = 17
+    var paddingOpcoes = 8 //aconselhavel não mudar esse valor
+  
+  
+  
+    const rectTitulo = document.createElement('div');
+    const contadorOptions = document.createElement('div');
+    const menuContainer = document.createElement('div');
+  
+  
+  
+  
+    function addTitle(titulo) {
+  
+      rectTitulo.style.width = larguraMenu + 'px';
+      //rectTitulo.style.height = '20px'; // Cada opção tem 40px de altura
+      rectTitulo.style.overflow = 'hidden';
+      rectTitulo.style.position = 'relative';
+      rectTitulo.style.backgroundColor = corBannerTitulo;
+      rectTitulo.style.color = corFonteTitulo;
+      rectTitulo.style.position = 'fixed';
+      rectTitulo.style.top = menuTop + 'px';
+      rectTitulo.style.left = marginLeft + 'px';
+      rectTitulo.style.fontSize = '5vw';
+      rectTitulo.innerHTML = '<table style="width:100%;margin-top:' + tituloMargin + 'px;margin-bottom:' + tituloMargin + 'px"><tr><th style="color:' + corFonteTitulo + ';font-size:' + tamFonteTitulo + 'px;font-family:' + fontFamilyFonteTitulo + '">' + titulo + '</th></tr></table>';
+  
+      document.body.appendChild(rectTitulo);
+      //------------------------------------------
+  
+  
+      contadorOptions.style.width = larguraMenu + 'px';
+      //contadorOptions.style.height = '20px'; // Cada opção tem 40px de altura
+      contadorOptions.style.overflow = 'hidden';
+      contadorOptions.style.position = 'relative';
+      contadorOptions.style.backgroundColor = corFundoContador;
+      contadorOptions.style.color = corFonteContador;
+      contadorOptions.style.position = 'fixed';
+      contadorOptions.style.top = (rectTitulo.offsetHeight + menuTop) + 'px';
+      contadorOptions.style.fontSize = '10px';
+      contadorOptions.style.left = marginLeft + 'px';
+      contadorOptions.innerHTML = '0/100&nbsp;&nbsp;';
+      contadorOptions.style.textAlign = 'right';
+      contadorOptions.style.marginRight = '5px';
+      contadorOptions.style.fontFamily = fontFamilyFonteContador;
+  
+      document.body.appendChild(contadorOptions);
+  
+      //------------------------------------------------------------------------
+  
+      // Elementos principais do DOM
+  
+      menuContainer.style.width = larguraMenu + 'px';
+      menuContainer.style.height = `${maxVisibleOptions * (paddingOpcoes + tamFonteOpcoes)}px`;
+      menuContainer.style.overflow = 'hidden';
+      menuContainer.style.position = 'relative';
+      menuContainer.style.backgroundColor = corFundoMenu;
+      menuContainer.style.color = 'white';
+  
+      menuContainer.style.position = 'fixed';
+      menuContainer.style.top = (rectTitulo.offsetHeight + menuTop + contadorOptions.offsetHeight) + 'px';
+      menuContainer.style.left = marginLeft + 'px';
+  
+  
+      menuContainer.id = 'menuContainer';
+  
+      document.body.appendChild(menuContainer);
+  
+      numHooks++
+
+      setInterval(() => {
+        contadorOptions.innerHTML = currentIndex + '/' + options.length + '&nbsp;&nbsp;';
+  
+  
+  
+        rectTitulo.style.width = larguraMenu + 'px';
+        rectTitulo.style.backgroundColor = corBannerTitulo;
+        rectTitulo.style.color = corFonteTitulo;
+        rectTitulo.style.top = menuTop + 'px';
+        rectTitulo.style.left = marginLeft + 'px';
+        rectTitulo.innerHTML = '<table style="width:100%;margin-top:' + tituloMargin + 'px;margin-bottom:' + tituloMargin + 'px"><tr><th style="color:' + corFonteTitulo + ';font-size:' + tamFonteTitulo + 'px;font-family:' + fontFamilyFonteTitulo + '">' + titulo + '</th></tr></table>';
+        //-------------------
+        contadorOptions.style.width = larguraMenu + 'px';
+        contadorOptions.style.backgroundColor = corFundoContador;
+        contadorOptions.style.color = corFonteContador;
+        contadorOptions.style.top = (rectTitulo.offsetHeight + menuTop) + 'px';
+        contadorOptions.style.left = marginLeft + 'px';
+        contadorOptions.style.fontFamily = fontFamilyFonteContador;
+        //------------------------------------------------------------------------
+        menuContainer.style.width = larguraMenu + 'px';
+        menuContainer.style.height = `${maxVisibleOptions * (paddingOpcoes + tamFonteOpcoes)}px`;
+        menuContainer.style.backgroundColor = corFundoMenu;
+        menuContainer.style.top = (rectTitulo.offsetHeight + menuTop + contadorOptions.offsetHeight) + 'px';
+        menuContainer.style.left = marginLeft + 'px';
+      }, 10)
+    }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    function addOption(texto, func = () => { }) {
+      const optionList = document.createElement('div');
+      optionList.id = 'optionList';
+      optionList.style.position = 'absolute';
+      optionList.style.top = '0';
+      optionList.style.width = '100%';
+      optionList.style.transition = 'top 0.1s';
+      optionList.style.backgroundColor = 'rgba(0,0,0,10)';
+      optionList.style.fontFamily = fontFamilyFonteOpcoes;
+      document.getElementById('menuContainer').appendChild(optionList);
+  
+      const opcaoAtual = options.length
+  
+      //options.push(texto)
+      options.push(`
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td>  </td>
+            </tr> 
+          </table>
+          `)
+  
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          if (currentIndex === opcaoAtual) {
+            //console.log("currentIndex:" + currentIndex)
+            //console.log("opcaoAtual:" + opcaoAtual)
+            func()
+  
+          }
+          renderOptions()
+        }
+      });
+  
+    }
+  
+  
+    function addIntOption(texto, int, func = () => { }) {
+      const optionList = document.createElement('div');
+      optionList.id = 'optionList';
+      optionList.style.position = 'absolute';
+      optionList.style.top = '0';
+      optionList.style.width = '100%';
+      optionList.style.transition = 'top 0.1s';
+      optionList.style.backgroundColor = 'rgba(0,0,0,10)';
+      optionList.style.fontFamily = fontFamilyFonteOpcoes;
+      document.getElementById('menuContainer').appendChild(optionList);
+  
+      const opcaoAtual = options.length
+  
+      //options.push(texto + '&nbsp;&nbsp;<&nbsp;' + int + '&nbsp;>')
+      options.push(`
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                < ${int} >
+              </td>
+            </tr> 
+          </table>
+          `)
+  
+      document.addEventListener('keydown', (event) => {
+  
+        if (currentIndex === opcaoAtual) {
+          if (event.key === 'Enter') {
+  
+            func(int)
+            renderOptions()
+          }
+          if (event.key === 'ArrowLeft') {
+  
+            int--
+            func(int)
+          }
+          if (event.key === 'ArrowRight') {
+  
+            int++
+            func(int)
+          }
+  
+  
+  
+          //options[opcaoAtual] = texto + '&nbsp;&nbsp;<&nbsp;' + int + '&nbsp;>'
+          options[opcaoAtual] = `
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                < ${int} >
+              </td>
+            </tr> 
+          </table>
+          `
+          renderOptions()
+  
+        }
+      });
+  
+    }
+  
+  
+  
+    function addFloatOption(texto, float, func = () => { }) {
+      const optionList = document.createElement('div');
+      optionList.id = 'optionList';
+      optionList.style.position = 'absolute';
+      optionList.style.top = '0';
+      optionList.style.width = '100%';
+      optionList.style.transition = 'top 0.1s';
+      optionList.style.backgroundColor = 'rgba(0,0,0,10)';
+      optionList.style.fontFamily = fontFamilyFonteOpcoes;
+      document.getElementById('menuContainer').appendChild(optionList);
+  
+      const opcaoAtual = options.length
+  
+      //options.push(texto + '&nbsp;&nbsp;<&nbsp;' + int + '&nbsp;>')
+      options.push(`
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                < ${float.toFixed(4)} >
+              </td>
+            </tr> 
+          </table>
+          `)
+  
+      document.addEventListener('keydown', (event) => {
+  
+        if (currentIndex === opcaoAtual) {
+          if (event.key === 'Enter') {
+  
+            func(float)
+            renderOptions()
+          }
+          if (event.key === 'ArrowLeft') {
+  
+            float -= 0.3543
+  
+          }
+          if (event.key === 'ArrowRight') {
+  
+            float += 0.3543
+          }
+  
+  
+  
+          //options[opcaoAtual] = texto + '&nbsp;&nbsp;<&nbsp;' + int + '&nbsp;>'
+          options[opcaoAtual] = `
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                < ${float.toFixed(4)} >
+              </td>
+            </tr> 
+          </table>
+          `
+          renderOptions()
+  
+        }
+      });
+  
+    }
+  
+  
+    function addBoolOption(texto, boleta, func = () => { }) {
+      const optionList = document.createElement('div');
+      optionList.id = 'optionList';
+      optionList.style.position = 'absolute';
+      optionList.style.top = '0';
+      optionList.style.width = '100%';
+      optionList.style.transition = 'top 0.1s';
+      optionList.style.backgroundColor = 'rgba(0,0,0,10)';
+      optionList.style.fontFamily = fontFamilyFonteOpcoes;
+      document.getElementById('menuContainer').appendChild(optionList);
+  
+      const opcaoAtual = options.length
+  
+      if (boleta) {
+        //options.push(texto + '&nbsp;&nbsp;<font style="color:green">' + boleta + '</font>')
+        options.push(`
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:green;font-size: ${tamFonteOpcoes}px">
+                 ON 
+              </td>
+            </tr> 
+          </table>
+          `)
+      }
+      else {
+        //options.push(texto + '&nbsp;&nbsp;<font style="color:red">' + boleta + '</font>')
+        options.push(`
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:red;font-size: ${tamFonteOpcoes}px">
+                 OFF
+              </td>
+            </tr> 
+          </table>
+          `)
+      }
+  
+  
+      document.addEventListener('keydown', (event) => {
+  
+        if (currentIndex === opcaoAtual) {
+          if (event.key === 'Enter') {
+            boleta = !boleta
+            if (boleta) {
+              //options[opcaoAtual] = texto + '&nbsp;&nbsp;<font style="color:green">' + boleta + '</font>'
+              options[opcaoAtual] = `
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:green;font-size: ${tamFonteOpcoes}px">
+                 ON
+              </td>
+            </tr> 
+          </table>
+          `
+            }
+            else {
+              //options[opcaoAtual] = texto + '&nbsp;&nbsp;<font style="color:red">' + boleta + '</font>'
+              options[opcaoAtual] = `
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:red;font-size: ${tamFonteOpcoes}px">
+                OFF 
+              </td>
+            </tr> 
+          </table>
+          `
+            }
+            func(boleta)
+            renderOptions()
+          }
+        }
+      });
+  
+    }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    function addColorOption(texto, cor, func = () => { }) {
+      const optionList = document.createElement('div');
+      optionList.id = 'optionList';
+      optionList.style.position = 'absolute';
+      optionList.style.top = '0';
+      optionList.style.width = '100%';
+      optionList.style.transition = 'top 0.1s';
+      optionList.style.backgroundColor = 'rgba(0,0,0,10)';
+      optionList.style.fontFamily = fontFamilyFonteOpcoes;
+      document.getElementById('menuContainer').appendChild(optionList);
+  
+      const opcaoAtual = options.length
+  
+      //options.push(texto + '&nbsp;&nbsp;<&nbsp;' + int + '&nbsp;>')
+      options.push(`
+          <table style="width:100%">
+            <tr>
+              <td style="color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                ${texto}
+              </td>
+              <td style="text-align:right;color:${corFonteOption};font-size: ${tamFonteOpcoes}px">
+                <input type="color" id="cor_${opcaoAtual}" >
+              </td>
+            </tr> 
+          </table>
+          `)
+  
+  
+      setTimeout(() => {
+        document.getElementById('cor_' + opcaoAtual).addEventListener('input', (x) => {
+          func(document.getElementById('cor_' + opcaoAtual).value)
+          //renderOptions()
+          //document.getElementById('cor_' + opcaoAtual).value=document.getElementById('cor_' + opcaoAtual).value
+        })
+      }, 2000);
+  
+  
+      document.addEventListener('keydown', (event) => {
+  
+        if (currentIndex === opcaoAtual) {
+          if (event.key === 'Enter') {
+  
+            func(document.getElementById('cor_' + opcaoAtual).value)
+            renderOptions()
+          }
+  
+  
+        }
+      });
+  
+    }
+  
+  
+  
+    addTitle("Menu Base")
+  
+  
+  
+  
+  
+    var paddingOpcoes = 8 //aconselhavel não mudar esse valor
+  
+  
+  
+    addColorOption('corBannerTitulo', corBannerTitulo, (valor_recebido) => {
+      //console.log(valor_recebido)
+      corBannerTitulo = valor_recebido
+    })
+  
+    addIntOption('marginLeft', marginLeft, (valor_recebido) => {
+      marginLeft = valor_recebido
+    })
+    addIntOption('larguraMenu', larguraMenu, (valor_recebido) => {
+      larguraMenu = valor_recebido
+    })
+  
+    addIntOption('tituloMargin', tituloMargin, (valor_recebido) => {
+      tituloMargin = valor_recebido
+    })
+  
+    addIntOption('menuTop', menuTop, (valor_recebido) => {
+      menuTop = valor_recebido
+    })
+    addIntOption('tamFonteOpcoes', tamFonteOpcoes, (valor_recebido) => {
+      tamFonteOpcoes = valor_recebido
+    })
+    addIntOption('paddingOpcoes', paddingOpcoes, (valor_recebido) => {
+      paddingOpcoes = valor_recebido
+    })
+  
+  
+    //=====================================
+  
+    for (var a = 0; a < 5; a++) {
+      addOption('Option ' + a, () => {
+        console.log("currentIndex:" + currentIndex)
+  
+      })
+    }
+    for (var a = 0; a < 5; a++) {
+      addIntOption('Int' + a, a, (valor_recebido) => {
+        console.log("valor_recebido:" + valor_recebido)
+  
+      })
+  
+    }
+    for (var a = 0; a < 5; a++) {
+      addBoolOption('Bool' + a, true, (valor_recebido) => {
+        console.log("valor_recebido:" + valor_recebido)
+  
+      })
+    }
+    for (var a = 0; a < 5; a++) {
+      addFloatOption('Float' + a, 1.550, (valor_recebido) => {
+        console.log("valor_recebido:" + valor_recebido)
+  
+      })
+    }
+  
+  
+  
+    // Função para renderizar opções visíveis
+    function renderOptions() {
+      document.getElementById('optionList').innerHTML = '';
+      const start = Math.max(0, currentIndex - maxVisibleOptions + 1);
+      const end = start + maxVisibleOptions + 2;//opcao em branco, ver isso
+  
+      options.slice(start, end).forEach((option, idx) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.innerHTML = option;
+        //optionDiv.style.height = tamFonteOpcoes;
+  
+        optionDiv.style.display = 'flex';
+        optionDiv.style.alignItems = 'center';
+        optionDiv.style.padding = '0 10px';
+        optionDiv.style.backgroundColor = idx === currentIndex - start ? corFundoSelectedOption : corFundoMenu;
+        //optionDiv.style.color = idx === currentIndex - start ? corFonteSelectedOption : corFonteOption;
+  
+  
+        document.getElementById('optionList').appendChild(optionDiv);
+      });
+  
+      document.getElementById('optionList').style.top = `${-(currentIndex >= maxVisibleOptions ? tamFonteOpcoes : 0)}px`;
+    }
+  
+    // Função para mover a seleção
+    function moveSelection(direction) {
+  
+      //vai pro ultimo, se o index for o primeiro e apertar pra cima
+      if (direction == -1 && currentIndex == 0) {
+        currentIndex = options.length;
+        renderOptions();
+      }
+  
+      const newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < options.length) {
+        currentIndex = newIndex;
+        renderOptions();
+      }
+      else {
+        //vai pro primeiro se o index for o ultimo item e apertar pra baixo
+        currentIndex = 0;
+        renderOptions();
+      }
+    }
+  
+    // Evento para capturar tecla ENTER
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') {
+        moveSelection(1);
+      } else if (event.key === 'ArrowUp') {
+        moveSelection(-1);
+      }
+      //else if (event.key === 'Enter') {
+      //  alert(`Opção selecionada: ${options[currentIndex]}`);
+      //}
+    });
+  
+    // Renderizar inicialmente
+    renderOptions();
+  
+  
+  console.log('numHooks: '+numHooks)
+  
+  
+  </script>
