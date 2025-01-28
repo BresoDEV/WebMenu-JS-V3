@@ -2,12 +2,13 @@
 
 
 const BODY = document.body
+var _menu_ = null
 
 //menu
 var posX = 300
 var posY = 10
 var corFundoMenu = '#000000'
-var larguraMenu = 250
+var larguraMenu = 350
 var alturaMenu = 400
 var opacidadeMenu = 0.9
 var borderRadiusMenu = 10
@@ -42,22 +43,16 @@ var paddingMenuLateral = 5
 var opcaoAtual = 0
 var totalOpcoes = 0
 var intervalos = []
+var menu_aberto = false
 
 //----------------
 
-const bloquearDivsAzul = document.createElement('style')
-bloquearDivsAzul.innerHTML = `
-*{
-    -webkit-tap-highlight-color: transparent;
-        -webkit-touch-callout: none;
-}`
-document.head.appendChild(bloquearDivsAzul)
 
 //------------
-function BlockedOption(texto, func = () => { }) {
+function addBlockedOption(texto) {
 
     var opt = addOption(() => {
-        Titulo(texto )
+        Titulo(texto)
         Texto('&#128274;')
     }, false)
 
@@ -117,7 +112,7 @@ function Button(texto, func = () => { }) {
 
     //pai.style.paddingLeft='25%'
 
-    const e = document.createElement('button')
+    const e = criarComponente('button')
     e.style.fontSize = tamFonteOpcoes + 'px'
     e.style.fontFamily = fontFamilyOpcoes
     e.style.textAlign = 'center'
@@ -126,7 +121,7 @@ function Button(texto, func = () => { }) {
     e.innerHTML = texto
     e.style.color = corFonteOpcoes
     e.style.width = '100%'
-    
+
     e.style.padding = '0px'
 
     e.style.marginTop = espacamento + 'px'
@@ -155,7 +150,7 @@ function Button(texto, func = () => { }) {
         e.style.marginTop = espacamento + 'px'
         e.style.marginBottom = espacamento + 'px'
         e.style.borderRadius = borderRadiusMenu + 'px'
-        e.style.height = (parseInt(tamFonteOpcoes)+5)+'px'
+        e.style.height = (parseInt(tamFonteOpcoes) + 5) + 'px'
     }, 1);
     intervalos.push(a)
 
@@ -215,7 +210,7 @@ function Int(variavel, min = 0, max = 100, incremento = 1, func = () => { }) {
 
 function Number(variavel, min = 0, max = 100, func = () => { }) {
 
-    const e = document.createElement('input')
+    const e = criarComponente('input')
     e.type = 'number'
     e.style.color = corFonteOpcoes
     e.style.marginRight = marginRightTexto + 'px'
@@ -233,13 +228,13 @@ function Number(variavel, min = 0, max = 100, func = () => { }) {
 
     e.addEventListener('input', () => {
         func(e.value)
-        console.log(e.value)
+        //console.log(e.value)
     })
 
     var a = setInterval(() => {
         e.style.fontFamily = fontFamilyOpcoes
         e.style.marginRight = (marginRightTexto / 2) + 'px'
-        e.style.height = (parseInt(tamFonteOpcoes)+5)+'px'
+        e.style.height = (parseInt(tamFonteOpcoes) + 5) + 'px'
         e.style.padding = '0px'
     }, 1);
 
@@ -251,7 +246,7 @@ function Number(variavel, min = 0, max = 100, func = () => { }) {
 
 function Combo(array, func = () => { }) {
 
-    const e = document.createElement('select')
+    const e = criarComponente('select')
     e.style.color = corFonteOpcoes
     e.style.marginRight = marginRightTexto + 'px'
     e.style.cursor = 'pointer'
@@ -259,7 +254,7 @@ function Combo(array, func = () => { }) {
     e.style.backgroundColor = 'transparent'
 
     array.forEach(s => {
-        var select = document.createElement('option')
+        var select = criarComponente('option')
         select.textContent = s
         e.appendChild(select)
     });
@@ -274,7 +269,7 @@ function Combo(array, func = () => { }) {
     var a = setInterval(() => {
         e.style.fontFamily = fontFamilyOpcoes
         e.style.marginRight = (marginRightTexto / 2) + 'px'
-        e.style.height = (parseInt(tamFonteOpcoes)+5)+'px'
+        e.style.height = (parseInt(tamFonteOpcoes) + 5) + 'px'
         e.style.padding = '0px'
     }, 1);
     intervalos.push(a)
@@ -288,7 +283,7 @@ function Combo(array, func = () => { }) {
 
 function Color(variavel, func = () => { }) {
 
-    const e = document.createElement('input')
+    const e = criarComponente('input')
     e.type = 'color'
     e.style.color = corFonteOpcoes
     e.style.marginRight = marginRightTexto + 'px'
@@ -301,11 +296,11 @@ function Color(variavel, func = () => { }) {
 
     e.addEventListener('input', () => {
         func(e.value)
-        console.log(e.value)
+        //console.log(e.value)
     })
 
     //estilizado
-    var style = document.createElement('style')
+    var style = criarComponente('style')
     style.innerHTML = `
     .imputsColors::-webkit-color-swatch-wrapper{
         paddin:0;
@@ -336,7 +331,7 @@ function Color(variavel, func = () => { }) {
 
 function CheckBox(variavel, func = () => { }) {
 
-    const e = document.createElement('input')
+    const e = criarComponente('input')
     e.type = 'CheckBox'
     e.style.fontSize = tamFonteOpcoes
     e.style.color = corFonteOpcoes
@@ -369,7 +364,7 @@ function CheckBox(variavel, func = () => { }) {
 
 function InputText(variavel, func = () => { }) {
 
-    const e = document.createElement('input')
+    const e = criarComponente('input')
     e.type = 'text'
     e.style.fontSize = (tamFonteOpcoes - 3) + 'px'
     e.style.color = corFonteOpcoes
@@ -416,7 +411,7 @@ function InputRangeInt(variavel, min = 0, max = 100, func = () => { }) {
 
 function InputRange(variavel, min = 0, max = 100, func = () => { }) {
 
-    const e = document.createElement('input')
+    const e = criarComponente('input')
     e.type = 'range'
     e.style.fontSize = tamFonteOpcoes + 'px'
     e.style.color = corFonteOpcoes
@@ -439,12 +434,12 @@ function InputRange(variavel, min = 0, max = 100, func = () => { }) {
         e.style.fontFamily = fontFamilyOpcoes
         e.style.marginRight = (marginRightTexto * 2) + 'px'
 
-        e.style.height = (parseInt(tamFonteOpcoes)+5)+'px'
+        e.style.height = (parseInt(tamFonteOpcoes) + 5) + 'px'
         e.style.padding = '0px'
     }, 1);
 
     //estilizado
-    var style = document.createElement('style')
+    var style = criarComponente('style')
     style.innerHTML = `
     .imputs::-webkit-slider-runnable-track{
         background:#eee;
@@ -468,7 +463,7 @@ function InputRange(variavel, min = 0, max = 100, func = () => { }) {
 
 function Texto(texto, func = () => { }) {
 
-    const e = document.createElement('button')
+    const e = criarComponente('button')
     e.innerHTML = texto
     e.style.color = corFonteOpcoes
     e.style.cursor = 'pointer'
@@ -494,7 +489,7 @@ function Texto(texto, func = () => { }) {
 
 function BoolOnOff(variavel, func = () => { }) {
 
-    const e = document.createElement('button')
+    const e = criarComponente('button')
     e.innerHTML = variavel
     e.style.color = corFonteOpcoes
     e.style.cursor = 'pointer'
@@ -530,7 +525,7 @@ function BoolOnOff(variavel, func = () => { }) {
 
 function BoolCheck(variavel, func = () => { }) {
 
-    const e = document.createElement('button')
+    const e = criarComponente('button')
     e.innerHTML = variavel
     e.style.color = corFonteOpcoes
     e.style.cursor = 'pointer'
@@ -565,7 +560,7 @@ function BoolCheck(variavel, func = () => { }) {
 
 function Bool(variavel, func = () => { }) {
 
-    const e = document.createElement('button')
+    const e = criarComponente('button')
     e.innerHTML = variavel
     e.style.color = corFonteOpcoes
     e.style.cursor = 'pointer'
@@ -601,7 +596,7 @@ function Bool(variavel, func = () => { }) {
 
 function Titulo(texto, func = () => { }) {
 
-    const e = document.createElement('button')
+    const e = criarComponente('button')
     e.style.fontSize = tamFonteOpcoes + 'px'
     e.style.fontFamily = fontFamilyOpcoes
     e.style.textAlign = 'left'
@@ -654,7 +649,7 @@ function Titulo(texto, func = () => { }) {
 function addBreak(text = ' ') {
 
     addOption(() => {
-        const d = document.createElement('div')
+        const d = criarComponente('div')
         d.style.backgroundColor = corFundoMenu
         d.style.width = larguraMenu + 'px'
         d.style.opacity = opacidadeMenu
@@ -684,12 +679,12 @@ function addBreak(text = ' ') {
 
 }
 
-
+//addOption principal
 function addOption(func = () => { }, hoverEffect = true) {
 
     totalOpcoes++
 
-    const d = document.createElement('div')
+    const d = criarComponente('div')
     d.style.backgroundColor = corFundoMenu
     d.style.width = larguraMenu + 'px'
     d.style.opacity = opacidadeMenu
@@ -702,8 +697,10 @@ function addOption(func = () => { }, hoverEffect = true) {
 
     var indexopcao = totalOpcoes
 
-    if (hoverEffect) {
-        d.addEventListener('mouseover', () => {
+
+    d.addEventListener('mouseover', () => {
+
+        if (hoverEffect) {
             var all = d.querySelectorAll('*')
             all.forEach(element => {
                 element.style.backgroundColor = corFundoOpcoesOver
@@ -711,11 +708,15 @@ function addOption(func = () => { }, hoverEffect = true) {
 
             });
             d.style.backgroundColor = corFundoOpcoesOver
+        }
 
-            opcaoAtual = indexopcao
-        })
 
-        d.addEventListener('mouseleave', () => {
+        opcaoAtual = indexopcao
+    })
+
+    d.addEventListener('mouseleave', () => {
+
+        if (hoverEffect) {
             var all = d.querySelectorAll('*')
             all.forEach(element => {
                 element.style.backgroundColor = corFundoMenu
@@ -723,10 +724,10 @@ function addOption(func = () => { }, hoverEffect = true) {
             });
             d.style.backgroundColor = corFundoMenu
 
-            opcaoAtual = 0
-        })
-    }
+        }
 
+        opcaoAtual = 0
+    })
 
 
     func(d)
@@ -752,7 +753,9 @@ function Menu(txt = 'Menu', func = () => { }) {
     }
     LoadDesign()
 
-    const d = document.createElement('div')
+    menu_aberto = true
+
+    const d = criarComponente('div')
     d.id = 'Edu_menuf'
     d.style.position = 'fixed'
     d.style.left = posX + 'px'
@@ -767,7 +770,7 @@ function Menu(txt = 'Menu', func = () => { }) {
     BODY.appendChild(d)
 
 
-    const banner = document.createElement('div')
+    const banner = criarComponente('div')
     banner.style.background = 'linear-gradient(to right,' + corFundoTopoEsq + ',' + corFundoTopoDir + ')'
     banner.style.width = '100%'
     banner.style.textAlign = 'center'
@@ -778,7 +781,7 @@ function Menu(txt = 'Menu', func = () => { }) {
     banner.style.borderRadius = '' + borderRadiusMenu + 'px ' + borderRadiusMenu + 'px 0px 0px '
 
 
-    const titulo = document.createElement('font')
+    const titulo = criarComponente('font')
     titulo.style.fontSize = tamFonteTopo + 'px'
     titulo.style.fontFamily = fontFamilyTopo
     titulo.innerHTML = txt
@@ -788,7 +791,7 @@ function Menu(txt = 'Menu', func = () => { }) {
     banner.appendChild(titulo)
     d.appendChild(banner)
 
-    const g = document.createElement('div')
+    const g = criarComponente('div')
     g.id = 'Edu_menu'
     //g.style.marginTop = banner.offsetHeight+'px'
     d.appendChild(g)
@@ -807,12 +810,12 @@ function Menu(txt = 'Menu', func = () => { }) {
     })
     //-----------------------
 
-    
+
     func(d)
 
     //rodape
 
-    const rodape = document.createElement('font')
+    const rodape = criarComponente('font')
     rodape.style.fontSize = (tamFonteOpcoes) + 'px'
     rodape.style.fontFamily = fontFamilyOpcoes
     rodape.innerHTML = opcaoAtual + '/' + totalOpcoes
@@ -824,10 +827,10 @@ function Menu(txt = 'Menu', func = () => { }) {
     rodape.style.marginRight = marginRightTexto + 'px'
     rodape.style.backgroundColor = corFundoMenu
     rodape.style.opacity = opacidadeMenu
-    g.appendChild(rodape)
+    d.appendChild(rodape)
 
 
-    var style = document.createElement('style')
+    var style = criarComponente('style')
     style.innerHTML = `
     .scrollbar::-webkit-scrollbar{
         width:2px;
@@ -904,7 +907,7 @@ function gerarID() {
 
 function createNotepad() {
 
-    const fundo = document.createElement('div')
+    const fundo = criarComponente('div')
 
     fundo.style.right = '10px'
     fundo.style.bottom = '10px'
@@ -922,7 +925,7 @@ function createNotepad() {
 
 
 
-    const textarea = document.createElement('textarea')
+    const textarea = criarComponente('textarea')
 
     textarea.style.width = '180px'
     textarea.style.height = '150px'
@@ -935,7 +938,7 @@ function createNotepad() {
     textarea.style.backgroundColor = corFundoMenu
     textarea.style.resize = 'none'
 
-    const button = document.createElement('button')
+    const button = criarComponente('button')
 
     button.style.width = '190px'
     button.style.marginLeft = '5px'
@@ -976,7 +979,7 @@ function createNotepad() {
 function sideMenu(array1 = '', array2 = '') {
 
     if (!document.getElementById('sidemenu')) {
-        const fundo2 = document.createElement('div')
+        const fundo2 = criarComponente('div')
         fundo2.style.backgroundColor = corFundoMenuMenuLateral
 
         fundo2.style.left = (posX - larguraMenu) + 'px'
@@ -992,7 +995,7 @@ function sideMenu(array1 = '', array2 = '') {
         fundo2.id = 'sidemenu'
 
 
-        const fundoTabela = document.createElement('div')
+        const fundoTabela = criarComponente('div')
 
         fundo2.appendChild(fundoTabela)
         document.getElementById('Edu_menuf').appendChild(fundo2)
@@ -1053,7 +1056,7 @@ function changeSideMenuValue(coluna, item, valor) {
 }
 
 function displayMsg(txt, tempo = 3000) {
-    const fundo = document.createElement('div')
+    const fundo = criarComponente('div')
     fundo.style.backgroundColor = corFundoMenu
 
     fundo.style.left = '-1000px'
@@ -1099,7 +1102,7 @@ function displayMsg(txt, tempo = 3000) {
 }
 
 function displayImage(src = '1.jpg', x = 10, y = 10, w = 200, h = 200, moveable = false) {
-    const fundo = document.createElement('img')
+    const fundo = criarComponente('img')
     fundo.style.left = x + 'px'
     fundo.style.top = y + 'px'
     fundo.style.position = 'fixed'
@@ -1141,10 +1144,16 @@ function cLog(msg) {
     if (exibirLogs) { console.log(msg); }
 }
 function cLogOk(msg) {
-    console.log('%c' + msg, 'color:green');
+    console.log('%c' + msg, 'border-radius:5px;padding:5px;color:white;background:linear-gradient(to right, green,rgb(100,200,100)) ;font-size:15px');
 }
 function cLogErro(msg) {
-    console.log('%c' + msg, 'color:red');
+    console.log('%c' + msg, 'border-radius:5px;padding:5px;color:white;background:linear-gradient(to right, red,rgb(200,100,100)) ;font-size:15px');
+}
+function cLogAlert(msg) {
+    console.log('%c' + msg, 'border-radius:5px;padding:5px;color:black;background:linear-gradient(to right, orange,rgb(200,100,0)) ;font-size:15px');
+}
+function cLogInfo(msg) {
+    console.log('%c' + msg, 'border-radius:5px;padding:5px;color:black;background:linear-gradient(to right, cyan,rgb(50,150,200)) ;font-size:15px');
 }
 
 function clearAllLoops() {
@@ -1162,12 +1171,14 @@ function unload() {
         totalOpcoes = 0
         clearAllLoops()
         cLogOk('Menu removido')
+
+        menu_aberto = false
     }
 
 }
 
 //Mensagem.Show('<font style="color:lime">Menu injected</font><br>Press <font style="color:yellow">' + teclaAbrir + '</font> to open/close menu')
-cLogOk('Menu injetado com sucesso!')
+
 
 
 function SaveDesign() {
@@ -1310,8 +1321,8 @@ const Funcoes = {
     }
 }
 
-var tag_estilo = document.createElement('style')
-tag_estilo.innerHTML=`
+var tag_estilo = criarComponente('style')
+tag_estilo.innerHTML = `
 button{
     margin:0px;
 }
@@ -1319,9 +1330,351 @@ button{
 BODY.append(tag_estilo)
 
 
+
+
+
+function LOGpanel() {
+    if (!document.getElementById('bloco_log_div')) {
+        const e = criarComponente('div')
+        e.style.position = 'fixed'
+        e.style.right = '0'
+        e.style.top = '0'
+        e.style.width = '200px'
+        e.style.padding = '10px'
+        e.style.height = document.body.offsetHeight + 'px'
+        e.style.color = 'white'
+        e.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+        e.id = 'bloco_log_div'
+
+
+        const e2 = criarComponente('div')
+        e2.style.backgroundColor = 'transparent'//
+        e2.style.maxHeight = '500px'
+        e2.style.overflowY = 'scroll'
+        e2.style.fontSize = tamFonteOpcoes + 'px'
+
+        var style = criarComponente('style')
+        style.innerHTML = `
+    .log::-webkit-scrollbar{
+        width:5px;
+    } 
+    .log::-webkit-scrollbar-thumb{
+       background:white;
+       border-radius:15px;
+    } 
+    .log::-webkit-scrollbar-track{
+       background:gray;
+    } 
+    `
+        document.head.appendChild(style)
+        e2.className = 'log'
+        e2.id = 'bloco_log'
+
+        e.append(e2)
+        document.body.append(e)
+
+        if (localStorage.getItem('bloco_log')) {
+            e2.innerHTML = localStorage.getItem('bloco_log')
+        } else {
+            localStorage.setItem('bloco_log', 'Log:<br>')
+        }
+
+    }
+    else {
+        document.getElementById('bloco_log_div').remove()
+    }
+}
+
+function atualizarLOG() {
+    if (localStorage.getItem('bloco_log')) {
+        if (document.getElementById('bloco_log')) {
+            document.getElementById('bloco_log').innerHTML = localStorage.getItem('bloco_log')
+        }
+    }
+}
+function resetarLOG() {
+    localStorage.removeItem('bloco_log')
+    document.getElementById('bloco_log').innerHTML = ''
+}
+
+
+
+function LOG(t) {
+    const data = new Date().toLocaleString('pt-br', { timeZone: 'America/Sao_Paulo' })
+    const t2 = '[' + data + '] = ' + t + '<br>'
+    if (document.getElementById('bloco_log')) {
+        document.getElementById('bloco_log').innerHTML += t2
+    }
+    localStorage.setItem('bloco_log', localStorage.getItem('bloco_log') + t2)
+}
+
+
+
+function CSSInjector() {
+
+    if (document.getElementById('CSSInjector')) {
+        document.getElementById('CSSInjector').remove()
+    } else {
+        const e = criarComponente('div')
+        e.style.position = 'fixed'
+        e.style.left = '0'
+        e.style.top = '0'
+        //e.style.width = '200px'
+        e.style.padding = '10px'
+        e.style.color = 'white'
+        e.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+        e.id = 'CSSInjector'
+
+
+
+        const e2 = criarComponente('div')
+        e2.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'//
+        e2.style.width = '200px'
+        e2.style.height = '200px'
+        e2.style.fontSize = tamFonteOpcoes + 'px'
+        e2.style.resize = 'none'
+        e2.style.padding = '10px'
+        e2.innerHTML = '*{<br>background-color:green;<br>}<br>'
+        e2.contentEditable = true
+        e2.style.border = '1px solid white'//
+
+        const bt = criarComponente('button')
+        bt.style.width = '100%'
+        bt.style.marginTop = '15px'
+        bt.style.border = '1px solid white'//
+        bt.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'//
+        bt.innerHTML = 'Execute'
+
+        e.append(e2)
+        e.append(bt)
+        document.body.append(e)
+
+        bt.addEventListener('click', () => {
+            //if(eval(e2.innerHTML)){
+            //    LOG('Codigo executado com sucesso')
+            //}else{
+            //    LOG('Ocorreu um erro no codigo')
+            //}
+
+            var style = criarComponente('style')
+            style.innerHTML = e2.innerText
+            document.head.appendChild(style)
+            //eval(e2.innerHTML)
+        })
+
+        //movimentacao
+        var movimentar = false
+        e.addEventListener('mousedown', () => {
+            movimentar = true
+            //SaveDesign()
+        })
+        e.addEventListener('mouseup', () => {
+            movimentar = false
+            //SaveDesign()
+        })
+        e.addEventListener('mousemove', (f) => {
+            if (movimentar) {
+                e.style.top = (f.clientY - (200 / 2)) + 'px'
+                e.style.left = (f.clientX - (200 / 2)) + 'px'
+            }
+        })
+    }
+
+}
+
+function JSInjector() {
+
+    if (document.getElementById('JSInjector')) {
+        document.getElementById('JSInjector').remove()
+    } else {
+        const e = criarComponente('div')
+        e.style.position = 'fixed'
+        e.style.left = '0'
+        e.style.top = '0'
+        //e.style.width = '200px'
+        e.style.padding = '10px'
+        e.style.color = 'white'
+        e.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+        e.id = 'JSInjector'
+
+
+
+        const e2 = criarComponente('div')
+        e2.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'//
+        e2.style.width = '200px'
+        e2.style.height = '200px'
+        e2.style.fontSize = tamFonteOpcoes + 'px'
+        e2.style.resize = 'none'
+        e2.style.padding = '10px'
+        e2.innerHTML = 'alert("test")'
+        e2.contentEditable = true
+        e2.style.border = '1px solid white'//
+
+        const bt = criarComponente('button')
+        bt.style.width = '100%'
+        bt.style.marginTop = '15px'
+        bt.style.border = '1px solid white'//
+        bt.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'//
+        bt.innerHTML = 'Execute'
+
+        e.append(e2)
+        e.append(bt)
+        document.body.append(e)
+
+        bt.addEventListener('click', () => {
+            //if(eval(e2.innerHTML)){
+            //    LOG('Codigo executado com sucesso')
+            //}else{
+            //    LOG('Ocorreu um erro no codigo')
+            //}
+            eval(e2.innerHTML)
+        })
+
+        //movimentacao
+        var movimentar = false
+        e.addEventListener('mousedown', () => {
+            movimentar = true
+            //SaveDesign()
+        })
+        e.addEventListener('mouseup', () => {
+            movimentar = false
+            //SaveDesign()
+        })
+        e.addEventListener('mousemove', (f) => {
+            if (movimentar) {
+                e.style.top = (f.clientY - (200 / 2)) + 'px'
+                e.style.left = (f.clientX - (200 / 2)) + 'px'
+            }
+        })
+    }
+
+}
+
+
+function rampageLayout() {
+    posX = 348; posY = 48; corFundoMenu = '#000000'
+    larguraMenu = 350; alturaMenu = 408; opacidadeMenu = 1
+    borderRadiusMenu = 0; corFundoTopoEsq = '#ff0000'
+    corFundoTopoDir = '#ff0000'; alturaTopo = 0
+    espacamento = 7; tamFonteTopo = 36
+    fontFamilyTopo = 'impact'; corFonteTopo = '#000000'
+    tamFonteOpcoes = 12; fontFamilyOpcoes = 'Arial'
+    corFonteOpcoes = '#ffffff'; corFundoOpcoesOver = '#ff0000'; corFundoOpcoesTextoOver = '#ffffff'
+    marginLeftTexto = 0; marginRightTexto = 7; larguraMenuLateral = 350
+    corFundoMenuMenuLateral = '#000000'; opacidadeMenuLateral = 0.7
+    corFonteOpcoesLateral = '#ffffff'; borderRadiusMenuLateral = 10; paddingMenuLateral = 5
+}
+
+function _2much4u_layout() {
+    posX = 348
+    posY = 48
+    corFundoMenu = '#000000'
+    larguraMenu = 350
+    alturaMenu = 408
+    opacidadeMenu = 1
+    borderRadiusMenu = 0
+    corFundoTopoEsq = '#00ffd5'
+    corFundoTopoDir = '#00ffee'
+    alturaTopo = 0
+    espacamento = 7
+    tamFonteTopo = 32
+    fontFamilyTopo = 'impact'
+    corFonteTopo = '#000000'
+    tamFonteOpcoes = 14
+    fontFamilyOpcoes = 'Arial'
+    corFonteOpcoes = '#ffffff'
+    corFundoOpcoesOver = '#ffffff'
+    corFundoOpcoesTextoOver = '#000000'
+    marginLeftTexto = 0
+    marginRightTexto = 7
+    larguraMenuLateral = 350
+    corFundoMenuMenuLateral = '#000000'
+    opacidadeMenuLateral = 0.7
+    corFonteOpcoesLateral = '#ffffff'
+    borderRadiusMenuLateral = 10
+    paddingMenuLateral = 5
+}
+
+
+function corAleatoria() {
+    return 'rgb(' + Math.floor(Math.random() * 255) + ',' +
+        Math.floor(Math.random() * 255) + ',' +
+        Math.floor(Math.random() * 255) + ')'
+}
+
+function addTecladoAbrirFechar(tecla, menu) {
+
+    document.addEventListener('keyup', (x) => {
+        if (x.key === tecla) {
+            if (menu_aberto) {
+                unload()
+            } else {
+                menu()
+            }
+        }
+    })
+}
+
+
+___hook()
+function ___hook() {
+    if (document.getElementById('Edu_menuf')) {
+        _menu_ = document.getElementById('Edu_menuf')
+    }
+    else {
+        _menu_ = null
+    }
+    requestAnimationFrame(___hook)
+}
+
+function criarComponente(tipo) {
+    return document.createElement(tipo)
+}
+
+
+function addHoverInfo(indexOpt, texto) {
+
+
+    const d = criarComponente('div')
+    d.style.position = 'fixed'
+    d.style.width = '100%'
+    d.style.color = 'white'
+    d.style.padding = '5px'
+    //d.style.borderRadius = '10px'
+    //d.style.border = '1px solid white'
+    d.innerHTML = texto
+    d.style.backgroundColor = 'rgba(0,0,0,0.9)'
+    d.style.color = 'rgba(255,255,255,0.9)'
+    d.style.left = '0px'
+    d.style.bottom = '0px'
+    d.style.display = 'none'
+    document.body.append(d)
+
+
+    const totalOpcoesTEMP = totalOpcoes
+
+    cLogAlert(totalOpcoes)
+    cLogAlert(indexOpt)
+
+    var a = setInterval(() => {
+        if (totalOpcoesTEMP === opcaoAtual) {
+            d.style.display = 'block'
+        } else {
+            d.style.display = 'none'
+        }
+    }, 1);
+    intervalos.push(a)
+
+}
+
+
+
+
+cLogOk('Menu injetado com sucesso!')
+
 //nao implementado
 function displayCanvas(x = 10, y = 10, w = 200, h = 200) {
-    const fundo = document.createElement('canvas')
+    const fundo = criarComponente('canvas')
     fundo.style.left = x + 'px'
     fundo.style.top = y + 'px'
     fundo.style.position = 'fixed'
@@ -1329,20 +1682,21 @@ function displayCanvas(x = 10, y = 10, w = 200, h = 200) {
     fundo.style.width = w + 'px'
     fundo.style.height = h + 'px'
     //fundo.style.backgroundColor = 'red'
-    fundo.style.zIndex = '-1'
+    //fundo.style.zIndex = '-1'
     fundo.id = gerarID()
- 
+
     BODY.appendChild(fundo)
 
 
     var ctx = fundo.getContext('2d')
     ctx.strokeStyle = 'red'
     ctx.beginPath()
-    ctx.moveTo(0,h/2)
-    ctx.lineTo(w/2,h/2)
+    ctx.moveTo(0, h / 2)
+    ctx.lineTo(w / 2, h / 2)
     ctx.stroke()
     makeElementMoveable(fundo)
-    
+
     return fundo
 }
+
 

@@ -10,7 +10,8 @@
 </head>
 
 <style>
-    html,body {
+    html,
+    body {
         background-color: #223a57;
     }
 
@@ -26,6 +27,7 @@
     }
 
     .code {
+
         background-color: rgb(0, 0, 0);
         color: aliceblue;
         width: 300px;
@@ -33,7 +35,8 @@
         border-radius: 15px;
         padding: 15px;
     }
-    h2{
+
+    h2 {
         color: aliceblue;
     }
 
@@ -55,16 +58,18 @@
 
     .verde {
         color: rgb(43, 162, 88);
+
     }
 </style>
 
 <body>
-    
+
     <br>
 
 
-    <h2>Demos:</h2> 
-    <button id="abrir">Abrir Menu</button>
+
+    <h2>Demos:</h2>
+    <button id="abrir">Abrir Menu (ou aperte a tecla 'O')</button>
     <br>
     <br>
     <button id="Redefinir">Redefinir Layout</button>
@@ -76,13 +81,14 @@
     <br>
     <h2>Implementação:</h2>
     <div class="code">
-       <font class="azul"> &lt;script <font class="cyan">src</font>=<font class="laranja">"menu.js"</font>&gt;&lt;/script&gt;</font>
+        <font class="azul"> &lt;script <font class="cyan">src</font>=<font class="laranja">"menu.js"</font>
+            &gt;&lt;/script&gt;</font>
     </div>
-  
+
 
 
     <h2>Estrutura Inicial:</h2>
-    <div class="code">
+    <div class="code" id="eval">
         <font class="verde">//Estrutura inicial</font><br>
         <font class="amarelo">Menu(</font>
         <font class="laranja">'Menu Base'</font>,<font class="azul">() => {</font><br>
@@ -111,14 +117,20 @@
 
 
 
+
+
+
+
+
+
+
+    //----------------------------
+
+
+    document.getElementById('eval').contentEditable = true
     document.getElementById('ex1').addEventListener('click', () => {
-        Menu('Menu Base', () => {
-            addOption(() => {
-                Titulo('Click me', () => {
-                    alert('Hello world!');
-                });
-            });
-        });
+        eval(document.getElementById('eval').innerText)
+
     })
 
     document.getElementById('abrir').addEventListener('click', () => {
@@ -133,26 +145,29 @@
 
     document.getElementById('design1').addEventListener('click', () => {
 
+
+        posX = 348
+        posY = 48
         corFundoMenu = '#000000'
         larguraMenu = 350
-        alturaMenu = 392
+        alturaMenu = 408
         opacidadeMenu = 1
         borderRadiusMenu = 0
-        corFundoTopoEsq = '#0400ff'
-        corFundoTopoDir = '#00ffe1'
+        corFundoTopoEsq = '#ff0000'
+        corFundoTopoDir = '#ff0000'
         alturaTopo = 0
-        espacamento = 0
-        tamFonteTopo = 20
+        espacamento = 7
+        tamFonteTopo = 36
         fontFamilyTopo = 'impact'
-        corFonteTopo = '#ffffff'
-        tamFonteOpcoes = 10
+        corFonteTopo = '#000000'
+        tamFonteOpcoes = 12
         fontFamilyOpcoes = 'Arial'
         corFonteOpcoes = '#ffffff'
-        corFundoOpcoesOver = '#2d48d2'
+        corFundoOpcoesOver = '#ff0000'
         corFundoOpcoesTextoOver = '#ffffff'
-        marginLeftTexto = 3
-        marginRightTexto = 6
-        larguraMenuLateral = 229
+        marginLeftTexto = 0
+        marginRightTexto = 7
+        larguraMenuLateral = 350
         corFundoMenuMenuLateral = '#000000'
         opacidadeMenuLateral = 0.7
         corFonteOpcoesLateral = '#ffffff'
@@ -175,14 +190,25 @@
 
 
 
+    addTecladoAbrirFechar('o', MenuPrincipal)
+
 
 
     function MenuPrincipal() {
+        LOG('Abriu o menu')
         Menu('Menu Base', () => {
 
+
+
             addOption(() => {
-                SubMenu('Base Layout', () => {
+                SubMenu('Base Layout Editor', () => {
                     MenuConfig()
+                })
+            })
+
+            addOption(() => {
+                SubMenu('Temas', () => {
+                    Temas()
                 })
             })
 
@@ -190,6 +216,7 @@
                 SubMenu('Examples', () => {
                     Exemplos()
                 })
+
             })
 
 
@@ -221,9 +248,17 @@
                 })
             })
 
-           
+            
+
         })
     }
+
+
+
+
+   
+
+    //---------------------------
 
 
     function DrawImgsExamples() {
@@ -312,6 +347,21 @@
                     createNotepad()
                 })
             })
+            addOption(() => {
+                Titulo('JS Injection', () => {
+                    JSInjector()
+                })
+            })
+            addOption(() => {
+                Titulo('CSS Injection', () => {
+                    CSSInjector()
+                })
+            })
+            addOption(() => {
+                SubMenu('Log Panel', () => {
+                    MenuLOG()
+                })
+            })
 
             addOption(() => {
                 Titulo('Display Msg', () => {
@@ -338,9 +388,9 @@
             addOption(() => {
                 Titulo('Change Side Menu Values', () => {
 
-                    changeSideMenuValue(1, 2, Math.floor(Math.random() * 1000))
-                    changeSideMenuValue(2, 2, Math.floor(Math.random() * 1000))
-                    changeSideMenuValue(3, 2, Math.floor(Math.random() * 1000))
+                    changeSideMenuValue(1, 2, Math.floor(Math.random() * 100000000))
+                    changeSideMenuValue(2, 2, Math.floor(Math.random() * 100000000))
+                    changeSideMenuValue(3, 2, Math.floor(Math.random() * 100000000))
 
                 })
             })
@@ -392,6 +442,54 @@
     }
 
 
+
+    function MenuLOG() {
+        Menu('Tools', () => {
+            addOption(() => {
+                SubMenuBack('Voltar', () => {
+                    Tools()
+                })
+            })
+
+            addBreak()
+
+
+            addOption(() => {
+                Titulo('Show/Hide Panel', () => {
+                    LOGpanel()
+                })
+            })
+            addOption(() => {
+                Titulo('Log Test', () => {
+                    LOG('test')
+                })
+            })
+            addOption(() => {
+                Titulo('Clear Log', () => {
+                    resetarLOG()
+                })
+            })
+            addOption(() => {
+                Titulo('Log')
+                var result = 'Teste de log'
+                InputText(result, (x) => {
+                    result = x;
+                })
+
+                Button('Add', () => {
+                    LOG(result)
+                })
+            })
+
+
+
+
+        })
+    }
+
+
+    var addBlockedOptionvar = false
+
     function Exemplos() {
         Menu('Exemplos', () => {
             addOption(() => {
@@ -412,16 +510,27 @@
                     //call new menu
                 })
             })
-            addOption(() => {
-                BlockedOption('Blocked Option', () => {
-                    //on click functiion
-                })
+
+
+            addBlockedOption('Blocked Option', () => {
+                alert('Blocked Option')
             })
+
+
             addOption(() => {
                 Button('Button', () => {
                     //on click functiion
                 })
             })
+
+            addOption(() => {
+                Titulo('Hover info', () => {
+                    //on click functiion
+                })
+                addHoverInfo(7, 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi alias rerum tenetur, expedita eius dolores libero. Minus itaque, est ipsum, in earum iusto obcaecati officia amet distinctio nulla vero nobis?')
+            })
+
+
 
             var myFloatVar = 1.23345;
             addOption(() => {
@@ -449,7 +558,7 @@
 
             var arrayCombo = ['Opt1', 'Opt2', 'Opt3'];
             addOption(() => {
-                Titulo('Number')
+                Titulo('Combo')
                 Combo(arrayCombo, (x) => {
                     alert(x)
                 })
@@ -707,6 +816,46 @@
         })
 
     }
+
+    function Temas() {
+        Menu('Temas', () => {
+            addOption(() => {
+                SubMenuBack('Voltar', () => {
+                    MenuPrincipal()
+                })
+            })
+
+            addBreak(' ')
+
+            addOption(() => {
+                Titulo('Original', () => {
+                    resetLayout();
+                })
+            })
+
+            addOption(() => {
+                Titulo('Rampage', () => {
+                    rampageLayout()
+                })
+            })
+            addOption(() => {
+                Titulo('2much4u', () => {
+                    _2much4u_layout()
+                })
+            })
+
+
+        })
+
+    }
+
+
+
+
+
+
+
+
 
 </script>
 
