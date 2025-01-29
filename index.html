@@ -12,7 +12,7 @@
 <style>
     html,
     body {
-        background-color: #223a57;
+        background-color: #4e249b;
     }
 
     button {
@@ -242,6 +242,13 @@
                 })
             })
             addBreak()
+            addOption(() => {
+                Titulo('localStorage.clear()', () => {
+                    localStorage.clear()
+                    window.location.reload()
+                })
+            })
+
             addOption(() => {
                 Titulo('Unload', () => {
                     unload()

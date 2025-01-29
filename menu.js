@@ -7,7 +7,7 @@ var _menu_ = null
 //menu
 var posX = 300
 var posY = 10
-var corFundoMenu = '#000000'
+var corFundoMenu = 'rgba(0,0,0,0.7)'
 var larguraMenu = 350
 var alturaMenu = 400
 var opacidadeMenu = 0.9
@@ -71,10 +71,10 @@ function addBlockedOption(texto) {
     opt.addEventListener('mouseleave', () => {
         var all = opt.querySelectorAll('*')
         all.forEach(element => {
-            element.style.backgroundColor = corFundoMenu
+            element.style.backgroundColor = 'transparent'
             element.style.color = corFonteOpcoes
         });
-        opt.style.backgroundColor = corFundoMenu
+        opt.style.backgroundColor = 'transparent'
 
         //opcaoAtual = 0
     })
@@ -685,7 +685,7 @@ function addOption(func = () => { }, hoverEffect = true) {
     totalOpcoes++
 
     const d = criarComponente('div')
-    d.style.backgroundColor = corFundoMenu
+    d.style.backgroundColor = 'transparent'
     d.style.width = larguraMenu + 'px'
     d.style.opacity = opacidadeMenu
     d.style.cursor = 'pointer'
@@ -719,10 +719,10 @@ function addOption(func = () => { }, hoverEffect = true) {
         if (hoverEffect) {
             var all = d.querySelectorAll('*')
             all.forEach(element => {
-                element.style.backgroundColor = corFundoMenu
+                element.style.backgroundColor = 'transparent'
                 element.style.color = corFonteOpcoes
             });
-            d.style.backgroundColor = corFundoMenu
+            d.style.backgroundColor = 'transparent'
 
         }
 
@@ -825,7 +825,7 @@ function Menu(txt = 'Menu', func = () => { }) {
     rodape.style.paddingBottom = '5px'
     rodape.style.float = 'right'
     rodape.style.marginRight = marginRightTexto + 'px'
-    rodape.style.backgroundColor = corFundoMenu
+    rodape.style.backgroundColor = 'transparent'
     rodape.style.opacity = opacidadeMenu
     d.appendChild(rodape)
 
@@ -877,7 +877,7 @@ function Menu(txt = 'Menu', func = () => { }) {
         rodape.innerHTML = opcaoAtual + '/' + totalOpcoes
         rodape.style.color = corFonteOpcoes
         rodape.style.marginRight = marginRightTexto + 'px'
-        rodape.style.backgroundColor = corFundoMenu
+        rodape.style.backgroundColor = 'transparent'
         rodape.style.opacity = opacidadeMenu
 
 
@@ -1243,7 +1243,7 @@ function LoadDesign() {
 
 function resetLayout() {
 
-    corFundoMenu = '#000000'
+    corFundoMenu = 'rgba(0,0,0,0.7)'
     larguraMenu = 350
     alturaMenu = 400
     opacidadeMenu = 0.9
@@ -1653,8 +1653,7 @@ function addHoverInfo(indexOpt, texto) {
 
     const totalOpcoesTEMP = totalOpcoes
 
-    cLogAlert(totalOpcoes)
-    cLogAlert(indexOpt)
+    
 
     var a = setInterval(() => {
         if (totalOpcoesTEMP === opcaoAtual) {
